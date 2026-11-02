@@ -3,6 +3,27 @@ _Leggi il leggimi in [Italiano](README.IT.md)._
 
 # Colibrì Guide - Local Inference Engine
 
+## GitHub Container Registry (CPU image)
+
+The **Publish container** GitHub Actions workflow builds `docker/Dockerfile.slim`
+from this repository, smoke-tests it, and publishes it to
+`ghcr.io/<owner>/<repository>:sha-<commit>`. On the default branch it also updates
+`:latest`. This is the CPU inference image, not the third-party CUDA/WebUI image.
+
+After merging the workflow into the default branch, run it from **Actions →
+Publish container → Run workflow**. Changes to the image's sources on `main` or
+`master` also publish automatically. Authentication uses the workflow's
+`GITHUB_TOKEN` with `packages: write`; no personal access token is required.
+
+For this repository, pull the published default-branch image with:
+
+```bash
+docker pull ghcr.io/urieliacom/colibri:latest
+```
+
+The model must still be mounted at `/model`; it is not included in the image.
+Package visibility is controlled separately in GitHub's package settings.
+
 A simple guide to running **Colibrì**, a local inference engine based on GLM 5.2, without needing programming knowledge. If you already have Docker installed, you are well on your way.
 
 ---
