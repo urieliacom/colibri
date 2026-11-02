@@ -4,7 +4,7 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04 AS build
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential make && \
+        build-essential make openssl libssl3 && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
@@ -14,7 +14,7 @@ RUN make -C c colibri CUDA=1 CUDA_ARCH=sm_80
 FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python3 libgomp1 && \
+        python3 libgomp1 openssl libssl3 && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -m -u 1000 colibri
 
